@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.koreait.mapper.BoardMapper">
+	<sql id="criteria">
+		<if test="keyword != null and type != null">
+			<trim prefixOverrides="OR" prefix="(" suffix=") AND">
+				<foreach item="type" collection="typeArr"><!-- getTypeArr() -->
+					<trim prefix="OR">
+						<choose>
+							<when test="type=='T'.toString()">
+								(BOARDTITLE LIKE '%'||#{keyword}||'%')
+							</when>
+							<when test="type=='C'.toString()">
+								(BOARDCONTENTS LIKE '%'||#{keyword}||'%')
+							</when>
+							<when test="type=='W'.toString()">
+								(BOARDWRITER LIKE '%'||#{keyword}||'%')
+							</when>
+						</choose>
+					</trim>
+				</foreach>
+			</trim>
+		</if>
+	</sql>
+
+
+
+
+	<select id="getList" resultType="com.koreait.domain.BoardDTO">
+		<![CDATA[
+			SELECT * FROM SPRING_BOARD WHERE BOARDNUM>0
+		]]>
+	</select>
+	<select id="getListWithPaging" resultType="com.koreait.domain.BoardDTO">
+		<![CDATA[
+			SELECT BOARDNUM,BOARDTITLE,BOARDCONTENTS,BOARDWRITER,REGDATE,UPDATEDATE
+			FROM
+				(SELECT /*+ INDEX_DESC(SPRING_BOARD SBOARD_PK)*/ ROWNUM RN,BOARDNUM,BOARDTITLE,BOARDCONTENTS,BOARDWRITER,
+				REGDATE,UPDATEDATE FROM SPRING_BOARD WHERE
+		]]>	
+		<include refid="criteria"></include>
+		<![CDATA[
+			ROWNUM<=#{pageNum}*#{amount})
+			WHERE RN>(#{pageNum}-1)*#{amount}
+		]]>
+	</select>
+	<select id="getTotal" resultType="_int">
+		SELECT COUNT(*) FROM SPRING_BOARD WHERE 
+		<include refid="criteria"></include>		
+		BOARDNUM>0
+	</select>
+	<!-- 
+		두 가지의 기능(전체 개수 검색, 전체 리스트 검색)이 하나의 쿼리문을 둘 다 사용하게 되는 경우엔
+		하나하나 다 써주게 되면 가독성과 유지보수가 좋지 않다. 따라서 <sql> 태그로 분리한 후
+		<include>를 사용한다.
+		검색 조건 처리, 데이터의 개수 처리가 함께 있지 않기 때문에 각각 분업 후 합치는것이 가능하다.
+		(가독성이 좋아진다)	
+	 -->
+	<select id="read" resultType="com.koreait.domain.BoardDTO">
+		SELECT * FROM SPRING_BOARD WHERE BOARDNUM=#{boardnum}	
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO SPRING_BOARD (BOARDNUM,BOARDTITLE,BOARDCONTENTS,BOARDWRITER)
+		VALUES(SEQ_SPRING_BOARD.NEXTVAL,#{boardtitle},#{boardcontents},#{boardwriter})
+	</insert>
+	<insert id="insert_with_bno">
+		<!-- 
+			selectKey : order="BEFORE" → 아래에 있는 쿼리문을 수행하기 전에 해당 쿼리문을 한번 수행한다.
+			수행된 결과(Long)를 boardnum이름에 세팅
+		-->
+		<selectKey keyProperty="boardnum" order="BEFORE" resultType="long">
+			SELECT SEQ_SPRING_BOARD.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO SPRING_BOARD (BOARDNUM,BOARDTITLE,BOARDCONTENTS,BOARDWRITER)
+		VALUES(#{boardnum},#{boardtitle},#{boardcontents},#{boardwriter})
+	</insert>
+	
+	<delete id="delete">
+		DELETE FROM SPRING_BOARD WHERE BOARDNUM=#{boardnum}
+	</delete>
+	
+	<update id="update">
+		UPDATE SPRING_BOARD SET BOARDTITLE=#{boardtitle}, BOARDCONTENTS=#{boardcontents}, UPDATEDATE=SYSDATE
+		WHERE BOARDNUM=#{boardnum}
+	</update>
+</mapper>
