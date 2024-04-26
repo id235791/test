@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>INDEX</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div id="wrap">
+        <div class="inner-box">
+            <div>
+                <div class="label">
+                    <span>아이디</span>
+                </div>
+                <div class="content">
+                    <input type="text" name="userid" id="userid">
+                </div>
+            </div>
+            <div>
+                <div class="label">
+                    <span>비밀번호</span>
+                </div>
+                <div class="content">
+                    <input type="password" name="userpw" id="userpw">
+                </div>
+            </div>
+            <div class="btn-area">
+                <input type="button" value="로그인" onclick="login()"><input type="button" value="회원가입" onclick="join()">
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    function join(){
+        location.href = "/join";
+    }
+    function login(){
+        const user = {userid:document.getElementById("userid").value, userpw:document.getElementById("userpw").value};
+        const xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function(){
+            if(xhr.readyState == XMLHttpRequest.DONE){
+                if(xhr.status == 200){
+                    const data = xhr.responseText.trim();
+                    if(data == "O"){
+                        alert(`${user.userid} 로그인 성공!`);
+                        location.href = "/chat";
+                    }
+                    else{
+                        alert("로그인 실패!");
+                        document.getElementById("userid").value = "";
+                        document.getElementById("userpw").value = "";
+                        document.getElementById("userid").focus();
+                    }
+                }
+            }
+        }
+        xhr.open("GET","/login"+`?userid=${user.userid}&userpw=${user.userpw}`);
+        xhr.send();
+    }
+</script>
+</html>

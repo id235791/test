@@ -1,0 +1,328 @@
+*{ padding:0; margin: 0; box-sizing: border-box; }
+input, textarea, button{ border:none; outline: none; cursor: pointer; background-color: transparent; font-weight: bold;}
+input[type=text], input[type=password], textarea{
+	cursor: text;
+}
+#wrap{
+    width: 500px;
+    margin: 20px auto;
+    padding:20px 0 0 0;
+}
+.inner-box{
+    width: fit-content;
+}
+.inner-box > div:not(.btn-area){
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+.label{
+    width: 100px;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.content input{
+    border:1px solid transparent;
+    border-bottom:1px solid rgb(152, 209, 255);
+    padding:10px 15px;
+    width:240px; height: 45px;
+}
+.content input:focus{
+    border:1px solid rgb(152, 209, 255);
+    border-radius: 5px;
+}
+.btn-area{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.btn-area *{
+    background-color: rgb(152, 209, 255);
+    border:none;
+    padding:10px 30px;
+    margin-right:10px;
+    border-radius: 5px;
+    color:white;
+}
+.btn-area :last-child{
+    margin-right: 0;
+}
+#chat-container{
+    width:450px;
+    height:780px;
+    margin:20px auto;
+    border-radius: 3px;
+    box-shadow: 1px 1px 3px #999;
+    
+}
+#content-box{
+    height:600px; width: 450px;
+    position: relative;
+    border-radius: 3px 3px 0 0;
+    border-bottom: 1px solid rgb(224,224,224);
+    display: flex;
+    overflow-y: hidden;
+}
+#content-box #left{
+	background-color:  rgb(238, 248, 255);
+	width:70px;
+}
+#left > button{
+
+	width:70px; height: 70px;
+	padding:13px;
+}
+#left > button:hover{
+	background-color: rgb(210, 237, 255);
+}
+#left > button#global-btn{
+	margin-top:60px;
+}
+#left img{
+	width:44px;
+}
+#content-box #right{
+	background-color: rgb(186, 206, 224);
+	width:380px;
+	position: relative;
+}
+#right input[type=button]:hover, #right input[type=submit]:hover{
+	background-color: rgb(210, 237, 255);
+	color:white;
+}
+#right #create-box{
+	position: absolute;
+	top:250px; right:30px;
+	width:400px;
+	height:150px;
+	background-color: #fff;
+	border: 2px solid rgb(210, 237, 255);
+	border-radius: 5px;
+	z-index: 100;
+	transform-origin: top right;
+	transition:transform ease-in-out 0.3s;
+}
+#create-box form > div:first-child{
+	height:30px;
+	display: flex;
+	justify-content: flex-end; align-items: center;
+	padding-right: 5px;
+}
+#create-box form > div:first-child img{
+	cursor: pointer;
+	width:20px;
+}
+#create-box .input-line{
+	display: flex;
+	justify-content: flex-start; align-items: center;
+	height:50px;
+	position: relative;
+}
+#create-box .tit-lbl{
+	width:100px;
+	padding:0 20px 0 20px;
+}
+#create-box #tit-input{
+	width:280px;
+	border-bottom:1px solid #ccc;
+}
+#create-box input[type=text]{
+	width:240px;
+	padding:10px 10px;
+}
+#create-box #word-cnt{
+	position: absolute;
+	right:20px;
+}
+#create-box .btn-line{
+	display: flex;
+	justify-content: center; align-items: center;
+	margin-top:10px;
+}
+#create-box .btn-line input{
+	border:1px solid rgb(210, 237, 255);
+	padding:10px 20px;
+	border-radius: 5px;
+}
+#content-box #right.room-list{
+	background-color: #fff;
+}
+#btn-box{
+	position: relative;
+	z-index: 10;
+}
+#btn-box div{
+	height: 50px;
+	width:100%;
+	display: flex;
+	justify-content: end;
+	align-items: flex-start;
+}
+#btn-box div button:hover{
+	background-color: rgb(210, 237, 255);
+}
+#logout{
+	display: block;
+	width:50px;
+	padding: 10px 0;
+}
+#logout img{
+	width:30px;
+}
+#create{
+	display: block;
+	width: 50px;
+	padding:10px 0;
+}
+#create img{
+	width:30px;
+}
+#input-box{
+	height:180px;
+	border-radius: 0 0 3px 3px;
+}
+#ad{
+	display: flex;
+	height:100%;
+	justify-content: center;
+	align-items: center;
+	background-color: rgb(249, 252, 255);
+}
+#chat-input{
+    padding:10px 15px;
+    font-size:18px;
+    width:450px; height:130px;
+    display: block; resize: none;
+}
+#input-box .btn-area{
+	height: 50px; justify-content: flex-end; margin-right: 10px;
+}
+#chat-submit, #chat-enter, #chat-out{
+    padding:5px 10px;
+    width:60px;
+}
+#contents{
+	position: relative;
+	z-index: 1;
+	height: 550px;
+	overflow: hidden;
+}
+#content{
+	height: 1100px; width: 760px;
+	transition: transform ease-in-out 0.4s;
+	position: relative;
+}
+#rooms, #my-rooms{
+	height: 550px; width: 380px;
+}
+#rooms *{
+	cursor: default;
+}
+.room{
+	display: flex;
+	height:50px;
+	align-items: center;
+}
+.room:hover{
+	background-color:  rgb(240, 248, 255);
+}
+.room-name{
+	padding:0 0 0 10px;
+	width:200px;
+	height:20px;
+	font-weight: bold;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+.room-cnt{
+	margin-left:10px;
+	color:#999;
+}
+.enterBtn{
+	visibility: hidden;
+}
+.room:hover .enterBtn{
+	visibility: visible;
+	cursor: pointer !important;
+	margin-left: 40px;
+	background-color: #fff;
+	border:1px solid rgb(210, 237, 255);
+	padding:10px;
+	border-radius: 5px;
+}
+.no-room{
+	padding:10px 10px;
+	text-align: center;
+}
+#chat-log{
+	background-color: rgb(186,206,224);
+	width:380px; height:550px;
+	position: absolute; left:380px;
+	overflow-y: auto;
+	padding:10px 0;
+}
+#back{
+    display: inline-block;
+    background: transparent;
+    width: 20px;
+    height: 20px;
+    border: none;
+    border-right: 1px solid #ccc;
+    position: absolute;
+    left: 10px;
+    cursor: pointer;
+    font-size: 18px;
+    padding-right: 10px;
+}
+#title{
+    width: 100%;
+    text-align: center;
+    border-bottom:1px solid #ccc;
+    padding:10px;
+    margin-bottom: 10px;
+}
+.inout-msg{
+    clear: both;
+    background: rgb(177,195,213);
+    text-align: center;
+    width: 300px;
+    margin: 10px auto;
+    border-radius: 15px;
+    color: rgb(71,79,85);
+    padding:5px;
+}
+.chat-content{
+    width:100%; height:fit-content;
+    clear:both;
+    padding:0 10px;
+    margin-top:10px;
+}
+.msg{
+    padding:10px;
+    border-radius:5px;
+}
+.sender{
+    font-size:12px;
+    margin:5px 0;
+}
+.chat-content.self > *{
+    float:right;
+}
+.chat-content.self > .msg{
+    background:aliceblue;
+}
+.chat-content.self .sender{
+    clear:both;
+}
+.chat-content.user > *{
+    float:left;
+}
+.chat-content.user > .msg{
+    background:lemonchiffon;
+}
+.chat-content.user .sender{
+    clear:both;
+}
