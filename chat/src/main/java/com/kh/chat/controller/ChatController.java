@@ -55,7 +55,7 @@ public class ChatController {
 	@ResponseBody
 	public String logout(HttpServletRequest req) {
 		System.out.println("/logout");
-		System.out.println("test");
+		System.out.println("id235791");
 		HttpSession session = req.getSession();
 		session.removeAttribute("loginUser");
 		return "O";
