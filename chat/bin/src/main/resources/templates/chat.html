@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div id="chat-container">
+		<div id="content-box">
+			<div id="left">
+				<button id="global-btn" style="background: rgb(210, 237, 255);">
+					<img src="https://cdn2.iconfinder.com/data/icons/social-productivity-line-art-2/128/world-256.png">
+				</button>
+				<button id="list-btn">
+					<img src="https://cdn2.iconfinder.com/data/icons/office-38/24/office-60-512.png">
+				</button>
+			</div>
+			<div id="right" class="room-list">
+				<div id="create-box" style="transform:scale(0)">
+					<form>
+						<div>
+							<img id="create-cancel" src="https://cdn2.iconfinder.com/data/icons/250-perfect-vector-pictograms/33/9.12-256.png">
+						</div>
+						<div class="input-line">
+							<div class="tit-lbl">
+								방 이름
+							</div>
+							<div class="tit-input">
+								<input type="text" id="tit-input">
+							</div>
+							<span id="word-cnt">0/10</span>
+						</div>
+						<div class="btn-line">
+							<input type="submit" id="create-submit" value="방 만들기">
+						</div>
+					</form>
+				</div>
+				<div id="btn-box">
+					<div>
+						<button id="create">
+							<img src="https://cdn3.iconfinder.com/data/icons/remixicon-communication/24/chat-new-line-256.png">
+						</button>
+						<button id="logout">
+							<img src="https://cdn0.iconfinder.com/data/icons/user-interface-2063/24/UI_Essential_icon_expanded-65-256.png">
+						</button>
+					</div>
+				</div>
+				<div id="contents">
+					<div id="content">
+						<div id="rooms" style="overflow-y: auto;"></div>
+						<div id="chat-log"></div>
+						<div id="my-rooms">
+							<div class="room">
+								<div class="room-name">이번엔 내 방 길고길고 길고길고 길고긴</div><div class="room-cnt">13</div>
+								<input id="2" class="enterBtn" type="button" value="입장하기">
+							</div>						
+							<div class="room">
+								<div class="room-name">이번엔 내 방 길고길고 길고길고 길고긴</div><div class="room-cnt">13</div>
+								<input id="2" class="enterBtn" type="button" value="입장하기">
+							</div>						
+							<div class="room">
+								<div class="room-name">이번엔 내 방 길고길고 길고길고 길고긴</div><div class="room-cnt">13</div>
+								<input id="2" class="enterBtn" type="button" value="입장하기">
+							</div>						
+							<div class="room">
+								<div class="room-name">이번엔 내 방 길고길고 길고길고 길고긴</div><div class="room-cnt">13</div>
+								<input id="2" class="enterBtn" type="button" value="입장하기">
+							</div>						
+							<div class="room">
+								<div class="room-name">이번엔 내 방 길고길고 길고길고 길고긴</div><div class="room-cnt">13</div>
+								<input id="2" class="enterBtn" type="button" value="입장하기">
+							</div>						
+							<div class="room">
+								<div class="room-name">이번엔 내 방 길고길고 길고길고 길고긴</div><div class="room-cnt">13</div>
+								<input id="2" class="enterBtn" type="button" value="입장하기">
+							</div>						
+							<div class="room">
+								<div class="room-name">이번엔 내 방 길고길고 길고길고 길고긴</div><div class="room-cnt">13</div>
+								<input id="2" class="enterBtn" type="button" value="입장하기">
+							</div>						
+							<div class="room">
+								<div class="room-name">이번엔 내 방 길고길고 길고길고 길고긴</div><div class="room-cnt">13</div>
+								<input id="2" class="enterBtn" type="button" value="입장하기">
+							</div>						
+							<div class="room">
+								<div class="room-name">이번엔 내 방 길고길고 길고길고 길고긴</div><div class="room-cnt">13</div>
+								<input id="2" class="enterBtn" type="button" value="입장하기">
+							</div>						
+							<div class="room">
+								<div class="room-name">이번엔 내 방 길고길고 길고길고 길고긴</div><div class="room-cnt">13</div>
+								<input id="2" class="enterBtn" type="button" value="입장하기">
+							</div>						
+							<div class="room">
+								<div class="room-name">이번엔 내 방 길고길고 길고길고 길고긴</div><div class="room-cnt">13</div>
+								<input id="2" class="enterBtn" type="button" value="입장하기">
+							</div>						
+							<div class="room">
+								<div class="room-name">이번엔 내 방 길고길고 길고길고 길고긴</div><div class="room-cnt">13</div>
+								<input id="2" class="enterBtn" type="button" value="입장하기">
+							</div>						
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="input-box">
+			<div id="ad">광고</div>
+			<div id="inner-box" style="display: none;">
+				<form>
+					<textarea id="chat-input"></textarea>
+					<div class="btn-area">
+						<input type="submit" id="chat-submit" value="보내기" style="background:#eee;">
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</body>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="/js/WebSocketService.js"></script>
+<script>
+	const loginUser = '[[${session.loginUser}]]';
+	let display = "global";
+	let enteredRoomNum = null;
+	const globalBtn = document.getElementById("global-btn");
+	const listBtn = document.getElementById("list-btn");
+	const content = document.getElementById("content");
+	const rooms = document.getElementById("rooms");
+	const myRooms = document.getElementById("my-rooms");
+	const chatLog = document.getElementById("chat-log");
+	const ad = document.getElementById("ad");
+	const innerBox = document.getElementById("inner-box");
+	let socket = null;
+	window.onload = function(){
+		socket = WebSocketService.getInstance(loginUser);
+	}
+	
+	globalBtn.addEventListener("click",function(){
+		if(display == "myRoom"){
+			socket.send(JSON.stringify({type:"GLOBAL"}));
+			if(enteredRoomNum == null){
+				content.style.transform = "translate(0,0)"
+				myRooms.style.overflowY = "hidden";
+				setTimeout(function(){
+					rooms.style.overflowY = "auto";
+				},400);
+			}
+			else{
+				content.style.transform = "translate(0,-550px)";
+				setTimeout(function(){
+					content.style.transform = "translate(0,0)"
+					myRooms.style.overflowY = "hidden";
+					setTimeout(function(){
+						rooms.style.overflowY = "auto";
+					},400);
+				},400)
+			}
+			display = "global"
+			listBtn.style.background = ""
+			globalBtn.style.background = "rgb(210, 237, 255)"
+			
+		}
+		else{
+			if(enteredRoomNum != null){
+				content.style.transform = "translate(0,0)"
+			}
+		}
+		enteredRoomNum = null;
+		ad.style.display = "block";
+		innerBox.style.display="none";
+	})
+	listBtn.addEventListener("click",function(){
+		if(display == "global"){
+			if(enteredRoomNum == null){
+				content.style.transform = "translate(0,-550px)"
+				rooms.style.overflowY = "hidden";
+				setTimeout(function(){
+					myRooms.style.overflowY = "auto";
+				},400)
+			}
+			else{
+				content.style.transform = "translate(0,0)"
+				setTimeout(function(){
+					content.style.transform = "translate(0,-550px)";				
+					rooms.style.overflowY = "hidden";
+					setTimeout(function(){
+						myRooms.style.overflowY = "auto";
+					},400)
+				},400)
+			}
+			display = "myRoom";
+			listBtn.style.background = "rgb(210, 237, 255)"
+			globalBtn.style.background = ""
+		}
+		else{
+			if(enteredRoomNum != null){
+				content.style.transform = "translate(0,-550px)"
+			}
+		}
+		enteredRoomNum = null;
+		ad.style.display = "block";
+		innerBox.style.display="none";
+	})
+	function displayRooms(rooms){
+		str = "";
+		if(rooms.length == 0){
+			str += "<div class='no-room'>생성된 채팅방이 없습니다.</div>"
+		}
+		else{
+			for(const room of rooms){
+				str += `<div class="room">
+<div class="room-name">${room.title}</div><div class="room-cnt">${room.members.length}</div>
+<input class="enterBtn" type="button" value="입장하기" onclick="enterRoom('${room.roomnum}')">
+</div>`
+			}
+		}
+		$("#rooms").html(str);
+	}
+	function enterRoom(roomNum){
+		enteredRoomNum = roomNum;
+		if(display == "global"){
+			chatLog.style.top = "0";
+			content.style.transform = "translate(-380px,0)";
+		}
+		else if(display == "myRoom"){
+			chatLog.style.top = "550px";
+			content.style.transform = "translate(-380px,-550px)";
+		}
+		ad.style.display = "none";
+		innerBox.style.display="block";
+		socket.send(JSON.stringify({type:"ENTER",userid:loginUser,roomnum:roomNum}))
+		chatLog.scrollTop = chatLog.scrollHeight;
+	}
+	$("#create").click(function(){
+		$("#create-box").css("transform","scale(1)");
+		document.getElementById("tit-input").focus();
+	})
+	$("#create-submit").click(function(e){
+		e.preventDefault();
+		const title = $("#tit-input").val();
+		socket.send(JSON.stringify({type:"CREATE",content:title,userid:loginUser}));
+		$("#create-box").css("transform","scale(0)");
+		$("#tit-input").val("");
+	})
+	$("#create-cancel").click(function(e){
+		e.preventDefault();
+		$("#create-box").css("transform","scale(0)");
+		$("#tit-input").val("");
+	})
+	$("#logout").click(function(){
+        const xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function(){
+            if(xhr.readyState == XMLHttpRequest.DONE){
+                if(xhr.status == 200){
+                    const data = xhr.responseText.trim();
+                    if(data == "O"){
+                        alert(`안녕히가세요`);
+                        location.href = "/";
+                    }
+                    else{
+                        alert("로그아웃 실패!");
+                    }
+                }
+            }
+        }
+        xhr.open("GET","/logout");
+        xhr.send();
+	})
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	const chatInput = document.getElementById("chat-input");
+	const chatSubmit = document.getElementById("chat-submit");
+	chatInput.addEventListener("keydown",input);
+	chatInput.addEventListener("input",function(){
+		const content = chatInput.value.trim();
+	    // textarea의 내용이 비어있는지 여부를 확인합니다.
+	    if (content === '') {
+	        // chat-submit 버튼의 배경색을 #eee로 설정합니다.
+	        chatSubmit.style.backgroundColor = '#eee';
+	    } else {
+	        // chat-submit 버튼의 배경색을 rgb(152, 209, 255)로 설정합니다.
+	        chatSubmit.style.backgroundColor = 'rgb(152, 209, 255)';
+	    }
+	})
+	chatSubmit.addEventListener("click",send);
+	function insertNewLine() {
+		const chatInput = document.getElementById("chat-input");
+	    // 현재 커서의 위치를 찾습니다.
+	    const cursorPosition = chatInput.selectionStart;
+	
+	    // textarea의 내용을 가져옵니다.
+	    const text = chatInput.value;
+	
+	    // 커서 위치를 기준으로 텍스트를 나눕니다.
+	    const beforeCursor = text.substring(0, cursorPosition);
+	    const afterCursor = text.substring(cursorPosition);
+	
+	    // 줄바꿈 문자열을 삽입합니다.
+	    const newText = beforeCursor + '\n' + afterCursor;
+	
+	    // textarea의 내용을 업데이트합니다.
+	    chatInput.value = newText;
+	
+	    // 커서를 적절한 위치로 이동시킵니다.
+	    chatInput.setSelectionRange(cursorPosition + 1, cursorPosition + 1);
+	}
+	function input(e){
+		const isShiftPressed = e.shiftKey;
+		const isEnterPressed = e.key === 'Enter';
+	    if (isShiftPressed && isEnterPressed) {
+	        e.preventDefault();
+	        insertNewLine();
+	    }
+	    else if(!isShiftPressed && isEnterPressed){
+			send(e);
+		}
+	}
+	function send(e){
+		e.preventDefault();
+		const msg = chatInput.value;
+		const now = new Date();
+		const year = now.getFullYear();
+		const month = ('0' + (now.getMonth() + 1)).slice(-2);
+		const day = ('0' + now.getDate()).slice(-2);
+		const hours = ('0' + now.getHours()).slice(-2);
+		const minutes = ('0' + now.getMinutes()).slice(-2);
+		const seconds = ('0' + now.getSeconds()).slice(-2);
+		const formattedDate = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+		//전송
+		socket.send(JSON.stringify({
+			type:"NORMAL",
+			content:msg,
+			time:formattedDate,
+			userid:loginUser,
+			roomnum:enteredRoomNum		
+		}))
+		chatInput.value = "";
+		chatInput.focus();
+	}
+</script>
+</html>
+
+

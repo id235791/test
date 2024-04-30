@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JOIN</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div id="wrap">
+        <div class="inner-box">
+            <div>
+                <div class="label">
+                    <span>아이디</span>
+                </div>
+                <div class="content">
+                    <input type="text" name="userid" id="userid">
+                </div>
+            </div>
+            <div>
+                <div class="label">
+                    <span>비밀번호</span>
+                </div>
+                <div class="content">
+                    <input type="password" name="userpw" id="userpw">
+                </div>
+            </div>
+            <div class="btn-area">
+                <input type="button" value="회원가입" onclick="join()"><input type="button" value="뒤로가기" onclick="back()">
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    function join(){
+        const xhr = new XMLHttpRequest();
+        const user = {userid:document.getElementById("userid").value, userpw:document.getElementById("userpw").value};
+        xhr.onreadystatechange = function(){
+            if(xhr.readyState == XMLHttpRequest.DONE){
+                if(xhr.status == 200){
+                    const data = xhr.responseText.trim();
+                    if(data == "O"){
+                        alert("가입 성공!");
+                    }
+                    else{
+                        alert("가입 실패!");
+                    }
+                    location.replace("/");
+                }
+            }
+        }
+        xhr.open("POST","/join");
+        xhr.setRequestHeader("Content-Type","application/json");
+        xhr.send(JSON.stringify(user));
+    }
+	function back(){
+		history.back();
+	}
+</script>
+</html>
